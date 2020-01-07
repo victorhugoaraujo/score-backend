@@ -24,14 +24,14 @@ module.exports = {
 
   async update(req, res){
     const { id, score} = req.body;
-    console.log('score', score);
 
     const user = await User.findOne({ id });
 
-    console.log('user', user);
-    console.log('userID', user._id);
-    let response = await user.updateOne(req.body)
+    let response = await user.updateOne(req.body);
 
-    return res.json(response);
+    return res.json({
+      id,
+      score,
+    });
   }
 }
