@@ -25,16 +25,14 @@ module.exports = {
   },
 
   async store(req, res) {
-    console.log(req.body);
     const { filename } = req.file;
-    const { title, value, finalValue, tagName } = req.body;
+    const { title, description, value, finalValue, action, tagName } = req.body;
 
     let service = await Service.findOne({ title })
 
     if(!service) {
-      service = await Service.create({ title, image: filename, value, finalValue, tagName });
+      service = await Service.create({ title, description, image: filename, value, finalValue, action, tagName });
     }
-    console.log(service)
     return res.json(service);
   }
 }

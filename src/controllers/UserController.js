@@ -3,27 +3,35 @@ const User = require('../models/User');
 
 module.exports = {
   async index(req, res){
-    const { name } = req.query;
-    console.log('name', name);
+    const { tagName } = req.query;
 
-    const user = await User.findOne({ name });
-    console.log(user);
-
+    const user = await User.findOne({ tagName });
 
     return res.json(user);
   },
 
   async store(req, res) {
-    console.log(req.body);
-    console.log(req.file);
-    const { name, score } = req.body;
+    const { name, score, scoreDescription, tagName } = req.body;
     const { filename } = req.file;
 
     let user = await User.findOne({ name })
 
     if(!user) {
-      user = await User.create({ name, image: filename, score });
+      user = await User.create({ name, image: filename, score, scoreDescription, tagName });
     }
     return res.json(user);
+  },
+
+  async update(req, res){
+    const { id, score} = req.body;
+    console.log('score', score);
+
+    const user = await User.findOne({ id });
+
+    console.log('user', user);
+    console.log('userID', user._id);
+    let response = await user.updateOne(req.body)
+
+    return res.json(response);
   }
 }
